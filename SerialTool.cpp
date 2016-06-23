@@ -65,7 +65,7 @@ static void FillSerialPort(HWND hWnd)
 	count=EnumUART();
 	for(i=0;i<count;i++)
 	{
-		SendMessage(hWnd,CB_ADDSTRING,0,(LPARAM)GetUARTName(i));
+		SendMessage(hWnd,CB_ADDSTRING,0,(LPARAM)GetPortName(i));
 	}
 	SendMessage(hWnd,CB_SETCURSEL,0,0);
 }
@@ -244,7 +244,7 @@ static void OnBnClickedOpen(HWND hWnd)
 		nDataBits = GetDlgItemInt(hWnd,IDC_LIST_DATABITS,NULL,0);
 		nStopBits = (UINT)SendDlgItemMessage(hWnd,IDC_LIST_STOPBITS,CB_GETCURSEL,0,0);
 		nParity   = (UINT)SendDlgItemMessage(hWnd,IDC_LIST_PARITY,CB_GETCURSEL,0,0);
-		hUART = OpenUART(GetUARTName(nIndex),nBaudrate,nDataBits,nStopBits,nParity);
+		hUART = OpenUART(GetPortName(nIndex),nBaudrate,nDataBits,nStopBits,nParity);
 		if(hUART == NULL)
 		{
 			MessageBox(hWnd,"打开串口失败!","打开失败", MB_OK|MB_ICONERROR);
@@ -257,7 +257,7 @@ static void OnBnClickedOpen(HWND hWnd)
 			MessageBox(hWnd,"启动接收服务失败!","打开失败", MB_OK|MB_ICONERROR);
 			return;
 		}
-		UpdateDeviceName(hWnd,GetUARTDesc(nIndex));
+		UpdateDeviceName(hWnd,GetDeviceName(nIndex));
 		SetDlgItemText(hWnd,IDC_BTN_OPEN,"关闭串口(&O)");
 		EnableDlgItem(hWnd,IDC_BTN_REFRESH,0);
 		EnableDlgItem(hWnd,IDC_LIST_PORT,0);
